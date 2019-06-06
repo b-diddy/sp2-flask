@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>Add new user to database</title>
+<h3>Add user details</h3>
+<form method="post" action="/add">
+    <dl>
+		<p>
+			<input name="inputName" value="" type="text" placeholder="Name" autocomplete="off" required>
+		</p>
+		<p>
+			<input name="inputEmail" value="" type="text" placeholder="Email" autocomplete="off" required>
+		</p>
+		<p>
+			<input name="inputPassword" value="" type="password" placeholder="Password" autocomplete="off" required>
+		</p>
+    </dl>
+    <p>
+		<input type="submit" value="Submit">
+	</p>
+</form>
+<p> </p>
+<button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+{% endblock %}
