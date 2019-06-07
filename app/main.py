@@ -13,7 +13,7 @@ def login_required(f):
 			return f(*args, **kwargs)
 
 		else:
-			flash('Please login first!')
+			flash('You have to be logged in to view this page!')
 			return redirect('/login')
 	return wrap
 
@@ -42,7 +42,7 @@ def add_new_user():
 @login_required
 def logout():
 	session.clear()
-	flash('You have been logged out.')
+	flash('You have successfully been logged out!')
 	return redirect('/login')
 
 
@@ -63,9 +63,9 @@ def add_user():
 			flash('User added successfully!')
 			return redirect('/overview')
 		else:
-			return 'Error while adding user'
-	except Exception as e:
-		print(e)
+			return 'An error occured while adding the new user.'
+	except Exception as exc:
+		print(exc)
 	finally:
 		cursor.close()
 		cn.close()
@@ -89,10 +89,10 @@ def login_submit():
 				cn.close()
 				return redirect('/overview')
 			else:
-				flash('Invalid password!')
+				flash('Invalid email or  password!')
 				return redirect('/login')
 		else:
-			flash('Invalid email/password!')
+			flash('Invalid email or password!')
 			return redirect('/login')
 
 
@@ -107,8 +107,8 @@ def overview():
 		table = Results(rows)
 		table.border = True
 		return render_template('users.html', table=table)
-	except Exception as f:
-		print(f)
+	except Exception as exc:
+		print(exc)
 	finally:
 		cursor.close() 
 		cn.close()
@@ -124,9 +124,10 @@ def edit_view(id):
 		if row:
 			return render_template('edit.html', row=row)
 		else:
-			return 'Error loading #{id}'.format(id=id)
-	except Exception as e:
-		print(e)
+                    return 'Error loading user with ID: #{id}'.format(id=id)
+
+	except Exception as exc:
+		print(exc)
 	finally:
 		cursor.close()
 		cn.close()
@@ -147,12 +148,12 @@ def update_user():
 			cursor = cn.cursor()
 			cursor.execute(sql_query, usr_inp)
 			cn.commit()
-			flash('User updated successfully!')
+			flash('Successfully updated user!')
 			return redirect('/overview')
 		else:
-			return 'Error while updating user'
-	except Exception as e:
-		print(e)
+			return 'An error occured while updating the user.'
+	except Exception as exc:
+		print(exc)
 	finally:
 		cursor.close()
 		cn.close()
@@ -165,10 +166,10 @@ def delete_user(id):
 		cursor = cn.cursor()
 		cursor.execute("DELETE FROM users WHERE user_id=%s", (id,))
 		cn.commit()
-		flash('User deleted successfully!')
+		flash('Successfully deleted user!')
 		return redirect('/overview')
-	except Exception as f:
-		print(f)
+	except Exception as exc:
+		print(exc)
 	finally:
 		cursor.close() 
 		cn.close()
